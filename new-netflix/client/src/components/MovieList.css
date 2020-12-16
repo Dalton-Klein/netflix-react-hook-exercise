@@ -1,10 +1,14 @@
+/* ::element::-webkit-scrollbar {
+   width: 0 !important 
+  } */
+
 .list {
   padding-left: 35px;
+  margin-bottom: 50px;
 }
 
 .movie-list {
   display: flex;
-  /* flex-wrap: wrap; */
   overflow: auto;
 }
 

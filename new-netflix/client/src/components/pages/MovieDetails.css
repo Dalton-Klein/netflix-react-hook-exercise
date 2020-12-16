@@ -1,0 +1,18 @@
+div {
+  color: white;
+}
+
+.back-button {
+  cursor: pointer;
+  z-index: 4;
+  border: 1px;
+  background-color: transparent;
+  font-size: 1.5em;  
+  margin-bottom: 20px;
+  color: var(--poke5);;
+  font-weight: 500;
+  border-radius: 25px;
+  border: 2px solid;
+  border-color: #ffffffb6;
+  padding: 10px 30px;
+}

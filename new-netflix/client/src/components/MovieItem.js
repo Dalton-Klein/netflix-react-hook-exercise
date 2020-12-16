@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import './MovieItem.css';
 import addBtn from '../assets/btn-add.svg';
 import remvBtn from '../assets/btn-added.svg';
+
 
 export default function MovieItem (props) {
 
@@ -16,9 +18,11 @@ export default function MovieItem (props) {
         className="movie-item-title">
         <h4>{props.movie.title}</h4>
       </div>
-      <img 
-      className="movie-item-img"
-      src ={`https://image.tmdb.org/t/p/w300/${props.movie.backdrop_path}`} alt='No Img Available'/>
+      <Link to={`/details/${props.movie.id}`}>
+        <img 
+        className="movie-item-img"
+        src ={`https://image.tmdb.org/t/p/w300/${props.movie.backdrop_path}`} alt='No Img Available'/>
+      </Link>
       {isShown &&
         (<div className="movie-item-button">
           <button onClick={props.onClick}>

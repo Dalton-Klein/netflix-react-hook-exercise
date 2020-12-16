@@ -12,4 +12,9 @@ code {
     monospace;
 }
 
+a, a:active, a:visited, a:focus {
+  text-decoration: none;
+  color:#ffffff;
+}
+
 html { background-color:  #181818; }

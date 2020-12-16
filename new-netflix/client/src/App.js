@@ -1,9 +1,11 @@
-// import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import SearchBar from './components/SearchBar';
 import MovieList from './components/MovieList';
 import MovieContainer from './components/MovieContainer';
-import {fetchMovies, fetchCategories, fetchCatList } from './services/movieService'
+import MovieDetails from './components/pages/MovieDetails';
+import {fetchDiscoveryMovies, fetchAllMovies, fetchCatList } from './services/movieService'
 
 export default function App () {
 
@@ -19,13 +21,14 @@ export default function App () {
     if (data) {
       setMyList(JSON.parse(data));
     }
+    // eslint-disable-next-line 
   },[])
 
   useEffect ( () => {
     myList.forEach(movie => {
-      console.log('inforEach')
       return refreshListsAfterFav(movie);
     })
+    // eslint-disable-next-line 
   },[isLoaded])
 
   useEffect(() => {
@@ -34,14 +37,27 @@ export default function App () {
   },[myList]);
 
   async function grabMovies () {
-    const getDiscoverMovies = await fetchMovies();
-    //loop and await for all categories
-    const getCategoryMovies = await fetchCategories();
-    const catList = await fetchCatList()
+    const getDiscoverMovies = await fetchDiscoveryMovies();
+    const catList = await fetchCatList();
+    setGenres(catList);   
+    let tempMovies = await getAllMovies (catList);
+
+    // console.log('tempMovies', typeof tempMovies[0])
+
+    const uniqueMovies = Array.from(new Set(tempMovies.map(a => a.id)))
+      .map(id => {
+        return tempMovies.find(a => a.id === id)
+      })
+    setCategoryMovies(uniqueMovies);
     setDiscoveryMovies(getDiscoverMovies);
-    setCategoryMovies(getCategoryMovies);
-    setGenres(catList);
     setIsLoaded(true); // this then triggers the second useEffect
+  }
+
+  async function getAllMovies (genres) {
+    let movies = await Promise.all(genres.map(genre => {
+      return fetchAllMovies(genre.id)
+    }));
+    return movies.flat();
   }
 
   function updateMoviesList (list, myFavMovie) {
@@ -82,15 +98,23 @@ export default function App () {
   if (!isLoaded) return (<div>LOADING...</div>)
   else {
     return (
-      <>
-      {!!myList.length && favComp}
-      <MovieContainer 
-      discoveryMovies= {discoveryMovies}  //movies
-      genres= {genres} //catList
-      allMovies={categoryMovies}
-      onClick={id => handleClick(id)}
-      />
-    </>
+    <Router>
+      <Switch>
+        <Route path="/details/:id" component={MovieDetails}></Route>
+        <Route path="/">
+          <SearchBar />
+          <div className="spacer" />
+          {!!myList.length && favComp}
+          <MovieContainer 
+            discoveryMovies= {discoveryMovies}
+            genres= {genres} 
+            allMovies={categoryMovies}
+            onClick={id => handleClick(id)}
+          />
+        </Route>
+      </Switch>
+      
+    </Router>
     )
   }
-}
+} 
