@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+.movie-item-card {
+  max-width: 300px;
+  height: 175px;
+  margin-top: -75px;
+  display: flex;
+  flex-direction: column;
+}
+.movie-item-img {
+  z-index: -1;
+}
+.movie-item-title {
+  position: relative;
+  top: 175px;
+  left: 3%;
+  z-index: 1;
+}
+
+h4 {
+  text-align: left;
+  color:white;
+}
+
+.movie-item-button {
+  position: relative;
+  top: -40px;
+  left: 85%;
+  z-index: 1;
+}
+
+button {
+  background: none;
+  border: none;
+}

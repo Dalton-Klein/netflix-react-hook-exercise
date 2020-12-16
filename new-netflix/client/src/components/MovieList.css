@@ -1,0 +1,18 @@
+.list {
+  padding-left: 35px;
+}
+
+.movie-list {
+  display: flex;
+  /* flex-wrap: wrap; */
+  overflow: auto;
+}
+
+h2 {
+  color: white;
+  font-size: 1.22em;
+}
+
+div {
+  height: 185px
+}
